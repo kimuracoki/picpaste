@@ -1,0 +1,59 @@
+Option Explicit
+
+Sub 写真を挿入する()
+
+Dim WS1 As Worksheet
+Dim WS2 As Worksheet
+
+Set WS1 = Worksheets("手順")
+
+'一覧貼り付け用シートをコピーして使う
+Worksheets("写真一覧用").Copy after:=WS1
+
+'前回文削除してシートを上書き
+Application.DisplayAlerts = False
+Worksheets(Format(Date, "YYMMDD")).Delete
+Application.DisplayAlerts = True
+
+ActiveSheet.Name = Format(Date, "YYMMDD")
+Set WS2 = ActiveSheet
+
+Dim LCRN1 As Long
+LCRN1 = WS1.Cells(3, 9).End(xlDown).Row
+
+Dim PicName As String
+Dim PicID As String
+Dim N1 As Integer
+Dim Zahyou As Long
+Dim StrNum As Long
+
+Cells(1, 2).Select
+StrNum = 1
+Zahyou = 18
+
+'一つ一つの画像を貼り付けて移動させる
+
+For N1 = 3 To LCRN1
+
+    PicName = WS1.Cells(7, 2) & WS1.Cells(N1, 9)
+    PicID = WS1.Cells(N1, 9)
+    
+    ActiveSheet.Pictures.Insert(PicName).Select
+    
+        With Selection
+        
+            .Top = Zahyou
+            .Left = 0
+            .Width = 364
+            .Height = 242
+            
+        End With
+        
+    Cells(StrNum, 9) = PicID
+    
+    StrNum = StrNum + 15
+    Zahyou = Zahyou +
+    
+Next
+
+End Sub
